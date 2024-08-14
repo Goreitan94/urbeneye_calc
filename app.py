@@ -1,10 +1,10 @@
 import streamlit as st
 
-# Define the main function for the Streamlit app
+# Define la función principal para la aplicación de Streamlit
 def main():
     st.title("Calculator App")
 
-    # Sidebar for navigation
+    # Barra lateral para la navegación
     st.sidebar.title("Navigation")
     selection = st.sidebar.radio("Go to", ["Resumen del Activo", "Tipo de Reforma", "Resumen Activo", "P&L de la Operación"])
 
@@ -17,32 +17,49 @@ def main():
     elif selection == "P&L de la Operación":
         display_pl_operacion()
 
-# Function to display Resumen del Activo
+# Función para mostrar el Resumen del Activo
 def display_resumen_del_activo():
     st.header("Resumen del Activo")
 
-    # Define dictionaries for municipios and barrios
+    # Diccionario de municipios y sus precios medios por metro cuadrado
     precios_medios_municipios = {
-        "Madrid": 5000,  # Ejemplo
-        "Valencia": 3000,  # Ejemplo
-        "Barcelona": 4500,  # Ejemplo
-        "Sevilla": 2800  # Ejemplo
+        "Madrid Capital": 5353,
+        "Fuenlabrada": 2110,
+        "Alcalá de Henares": 2225,
+        "Parla": 1767,
+        "Móstoles": 2263,
+        "Getafe": 2577,
+        "Torrejón de Ardoz": 2178,
+        "Valdemoro": 2190,
+        "Leganés": 2469,
+        "Alcorcón": 2457,
+        "Las Rozas de Madrid": 3681,
+        "Pinto": 2352,
+        "Aranjuez": 1883,
+        "Collado Villalba": 2176,
+        "Pozuelo de Alarcón": 4680,
+        "San Sebastián de los Reyes": 3037,
+        "Boadilla del Monte": 3886,
+        "Villaviciosa de Odón": 3349,
+        "Majadahonda": 3996,
+        "Coslada": 2598
     }
 
+    # Diccionario de barrios y sus precios medios por metro cuadrado en Madrid
     barrios_madrid = {
-        "Salamanca": 7000,  # Ejemplo
-        "Chamberí": 6500,  # Ejemplo
-        "Centro": 6000,  # Ejemplo
-        "Retiro": 6400,  # Ejemplo
+        "Salamanca": 7000,
+        "Chamberí": 6500,
+        "Centro": 6000,
+        "Retiro": 6400,
         # Agrega más barrios y precios según sea necesario
     }
 
     # Selección de municipio
     municipio = st.selectbox("Municipio", list(precios_medios_municipios.keys()))
 
-    # Selección de barrio si el municipio es Madrid
+    # Selección de barrio si el municipio es Madrid Capital
     barrio = None
-    if municipio == "Madrid":
+    if municipio == "Madrid Capital":
         barrio = st.selectbox("Barrio en Madrid", list(barrios_madrid.keys()))
         precio_m2 = barrios_madrid[barrio]
     else:
@@ -70,7 +87,7 @@ def display_resumen_del_activo():
     portero_fisico = st.selectbox("Portero físico", [0, 1, "na"])
     planta = st.selectbox("Planta", ["Bajo", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"])
 
-    # Display collected data
+    # Mostrar datos recopilados
     st.subheader("Resumen del Activo Data")
     st.write(f"Dirección: {direccion}")
     st.write(f"Ref Cat: {ref_cat}")
@@ -97,7 +114,7 @@ def display_resumen_del_activo():
     st.write(f"Planta: {planta}")
     st.write(f"Precio por m2: €{precio_m2}")
 
-# Function to display Tipo de Reforma
+# Función para mostrar el Tipo de Reforma
 def display_tipo_de_reforma():
     st.header("Tipo de Reforma")
 
@@ -109,7 +126,7 @@ def display_tipo_de_reforma():
     calidades_otros = st.radio("Calidades Otros", ["Yes", "No"])
     tipo_venta = st.selectbox("Tipo de Venta", ["Reformado", "Pase"])
 
-    # Display collected data
+    # Mostrar datos recopilados
     st.subheader("Tipo de Reforma Data")
     st.write(f"Tipo de Reforma: {tipo_reforma}")
     st.write(f"Nivel de Reforma: {nivel_reforma}")
@@ -119,7 +136,7 @@ def display_tipo_de_reforma():
     st.write(f"Calidades Otros: {calidades_otros}")
     st.write(f"Tipo de Venta: {tipo_venta}")
 
-# Function to display Resumen Activo Calculations
+# Función para mostrar los cálculos del Resumen Activo
 def display_resumen_activo():
     st.header("Resumen Activo")
     
@@ -138,22 +155,22 @@ def display_resumen_activo():
     accion = st.number_input("Acción (Terraza)", min_value=0)
     total_terraza = accion * 60
 
-    # Inputs para Carpitnaria Exterior
+    # Inputs para Carpintería Exterior
     ventana_s = st.number_input("Ventana S", min_value=0)
     ventana_m = st.number_input("Ventana M", min_value=0)
     ventana_l = st.number_input("Ventana L", min_value=0)
     ventana_xl = st.number_input("Ventana XL", min_value=0)
     ventana_paso = st.number_input("Ventana de Paso", min_value=0)
-    cerramientos = st.number_input("Cerramientos", min_value=0)
-    total_carpitnaria = (ventana_s * 600 + ventana_m * 750 + ventana_l * 1000 +
-                         ventana_xl * 1800 + ventana_paso * 2500 + cerramientos * 3000)
+    total_carpitnaria = (ventana_s * 1000 + ventana_m * 1500 + ventana_l * 2000 +
+                         ventana_xl * 2500 + ventana_paso * 3000)
 
     # Inputs para Armarios
     armario_s = st.number_input("Armario S", min_value=0)
     armario_m = st.number_input("Armario M", min_value=0)
     armario_l = st.number_input("Armario L", min_value=0)
-    empotrados = st.number_input("Empotrados", min_value=0)
-    total_armarios = (armario_s * 1000 + armario_m * 1500 + armario_l * 2000 + empotrados * 2500)
+    empotrados = st.number_input("Armarios Empotrados", min_value=0)
+    total_armarios = (armario_s * 1000 + armario_m * 1500 + armario_l * 2000 +
+                      empotrados * 2500)
 
     # Inputs para Baños
     baños_s = st.number_input("Baños S", min_value=0)
@@ -174,7 +191,7 @@ def display_resumen_activo():
     limpieza = st.number_input("Limpieza", min_value=0)
     total_demolicion_limpieza = demolicion * 2000 + limpieza * 1000
 
-    # Display totals
+    # Mostrar totales
     st.subheader("Resumen Activo Totals")
     st.write(f"Total Aire Acondicionado: €{total_aire}")
     st.write(f"Total ACS + Calefacción: €{total_acs_calefaccion}")
@@ -185,44 +202,71 @@ def display_resumen_activo():
     st.write(f"Total Habitaciones: €{total_habitaciones}")
     st.write(f"Total Demolición / Limpieza: €{total_demolicion_limpieza}")
 
-# Function to display P&L de la Operación
+# Función para mostrar el P&L de la Operación
 def display_pl_operacion():
     st.header("P&L de la Operación")
 
-    # Precios medios por metro cuadrado en diferentes municipios
+    # Diccionario de municipios y sus precios medios por metro cuadrado
     precios_medios_municipios = {
-        "Madrid": 5000,  # Ejemplo
-        "Valencia": 3000,  # Ejemplo
-        "Barcelona": 4500,  # Ejemplo
-        "Sevilla": 2800  # Ejemplo
-        # Agrega más municipios y precios según sea necesario
+        "Madrid Capital": 5353,
+        "Fuenlabrada": 2110,
+        "Alcalá de Henares": 2225,
+        "Parla": 1767,
+        "Móstoles": 2263,
+        "Getafe": 2577,
+        "Torrejón de Ardoz": 2178,
+        "Valdemoro": 2190,
+        "Leganés": 2469,
+        "Alcorcón": 2457,
+        "Las Rozas de Madrid": 3681,
+        "Pinto": 2352,
+        "Aranjuez": 1883,
+        "Collado Villalba": 2176,
+        "Pozuelo de Alarcón": 4680,
+        "San Sebastián de los Reyes": 3037,
+        "Boadilla del Monte": 3886,
+        "Villaviciosa de Odón": 3349,
+        "Majadahonda": 3996,
+        "Coslada": 2598
     }
 
     # Selección de municipio
     municipio = st.selectbox("Municipio", list(precios_medios_municipios.keys()))
 
-    # Precio medio en función del municipio seleccionado
-    precio_m2 = st.number_input("Precio por m2", min_value=0.0, value=precios_medios_municipios[municipio])
+    # Selección de barrio si el municipio es Madrid Capital
+    barrio = None
+    if municipio == "Madrid Capital":
+        barrios_madrid = {
+            "Salamanca": 7000,
+            "Chamberí": 6500,
+            "Centro": 6000,
+            "Retiro": 6400,
+            # Agrega más barrios según sea necesario
+        }
+        barrio = st.selectbox("Barrio en Madrid", list(barrios_madrid.keys()))
+        precio_m2 = barrios_madrid[barrio]
+    else:
+        precio_m2 = precios_medios_municipios[municipio]
 
-    # Inputs for calculations
+    # Inputs para cálculos de P&L
     coste_total = st.number_input("Coste Total", min_value=0.0)
     sqm_venta = st.number_input("m2 para Venta", min_value=0.0)
-    sqm_venta_madrid = st.number_input("m2 para Venta en Madrid", min_value=0.0)
-    precio_m2_venta_madrid = st.number_input("Precio por m2 en Madrid", min_value=0.0)
     gastos_impuestos = st.number_input("Gastos e Impuestos", min_value=0.0)
     otros_gastos = st.number_input("Otros Gastos", min_value=0.0)
     honorarios_agencia = st.number_input("Honorarios de Agencia", min_value=0.0)
 
-    # Total Ingresos and Total Gastos calculations
+    # Cálculo de Ingresos y Gastos Totales
     total_ingresos = precio_m2 * sqm_venta
     total_gastos = coste_total + gastos_impuestos + otros_gastos + honorarios_agencia
 
     # Resultado de la operación
     resultado_operacion = total_ingresos - total_gastos
 
-    # Display P&L details
+    # Mostrar detalles del P&L
     st.subheader("Detalles de P&L")
     st.write(f"Municipio: {municipio}")
+    if barrio:
+        st.write(f"Barrio: {barrio}")
     st.write(f"Precio por m2: €{precio_m2}")
     st.write(f"Coste Total: €{coste_total}")
     st.write(f"m2 para Venta: {sqm_venta}")
@@ -233,6 +277,6 @@ def display_pl_operacion():
     st.write(f"Total Gastos: €{total_gastos}")
     st.write(f"Resultado de la Operación: €{resultado_operacion}")
 
-# Run the Streamlit app
+# Ejecutar la aplicación de Streamlit
 if __name__ == "__main__":
     main()
