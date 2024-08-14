@@ -1,10 +1,8 @@
 import streamlit as st
 
-# Define la función principal para la aplicación de Streamlit
 def main():
     st.title("Calculator App")
 
-    # Barra lateral para la navegación
     st.sidebar.title("Navigation")
     selection = st.sidebar.radio("Go to", ["Resumen del Activo", "Tipo de Reforma", "Resumen Activo", "P&L de la Operación"])
 
@@ -17,57 +15,12 @@ def main():
     elif selection == "P&L de la Operación":
         display_pl_operacion()
 
-# Función para mostrar el Resumen del Activo
 def display_resumen_del_activo():
     st.header("Resumen del Activo")
-
-    # Diccionario de municipios y sus precios medios por metro cuadrado
-    precios_medios_municipios = {
-        "Madrid Capital": 5353,
-        "Fuenlabrada": 2110,
-        "Alcalá de Henares": 2225,
-        "Parla": 1767,
-        "Móstoles": 2263,
-        "Getafe": 2577,
-        "Torrejón de Ardoz": 2178,
-        "Valdemoro": 2190,
-        "Leganés": 2469,
-        "Alcorcón": 2457,
-        "Las Rozas de Madrid": 3681,
-        "Pinto": 2352,
-        "Aranjuez": 1883,
-        "Collado Villalba": 2176,
-        "Pozuelo de Alarcón": 4680,
-        "San Sebastián de los Reyes": 3037,
-        "Boadilla del Monte": 3886,
-        "Villaviciosa de Odón": 3349,
-        "Majadahonda": 3996,
-        "Coslada": 2598
-    }
-
-    # Diccionario de barrios y sus precios medios por metro cuadrado en Madrid
-    barrios_madrid = {
-        "Salamanca": 7000,
-        "Chamberí": 6500,
-        "Centro": 6000,
-        "Retiro": 6400,
-        # Agrega más barrios y precios según sea necesario
-    }
-
-    # Selección de municipio
-    municipio = st.selectbox("Municipio", list(precios_medios_municipios.keys()))
-
-    # Selección de barrio si el municipio es Madrid Capital
-    barrio = None
-    if municipio == "Madrid Capital":
-        barrio = st.selectbox("Barrio en Madrid", list(barrios_madrid.keys()))
-        precio_m2 = barrios_madrid[barrio]
-    else:
-        precio_m2 = precios_medios_municipios[municipio]
-
-    # Inputs de dirección y otros datos generales
+    
     direccion = st.text_input("Dirección")
     ref_cat = st.text_input("Ref Cat")
+    barrio = st.text_input("Barrio")
     sqm_construido = st.number_input("sqm Construido medido", min_value=0)
     sqm_util = st.number_input("sqm Útil medido", min_value=0)
     sqm_catastro = st.number_input("Sqm Catastro", min_value=0)
@@ -87,13 +40,10 @@ def display_resumen_del_activo():
     portero_fisico = st.selectbox("Portero físico", [0, 1, "na"])
     planta = st.selectbox("Planta", ["Bajo", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"])
 
-    # Mostrar datos recopilados
     st.subheader("Resumen del Activo Data")
     st.write(f"Dirección: {direccion}")
     st.write(f"Ref Cat: {ref_cat}")
-    st.write(f"Municipio: {municipio}")
-    if barrio:
-        st.write(f"Barrio: {barrio}")
+    st.write(f"Barrio: {barrio}")
     st.write(f"sqm Construido medido: {sqm_construido}")
     st.write(f"sqm Útil medido: {sqm_util}")
     st.write(f"Sqm Catastro: {sqm_catastro}")
@@ -112,9 +62,7 @@ def display_resumen_del_activo():
     st.write(f"Tipo de Patio: {tipo_patio}")
     st.write(f"Portero Físico: {portero_fisico}")
     st.write(f"Planta: {planta}")
-    st.write(f"Precio por m2: €{precio_m2}")
 
-# Función para mostrar el Tipo de Reforma
 def display_tipo_de_reforma():
     st.header("Tipo de Reforma")
 
@@ -126,7 +74,6 @@ def display_tipo_de_reforma():
     calidades_otros = st.radio("Calidades Otros", ["Yes", "No"])
     tipo_venta = st.selectbox("Tipo de Venta", ["Reformado", "Pase"])
 
-    # Mostrar datos recopilados
     st.subheader("Tipo de Reforma Data")
     st.write(f"Tipo de Reforma: {tipo_reforma}")
     st.write(f"Nivel de Reforma: {nivel_reforma}")
@@ -136,77 +83,90 @@ def display_tipo_de_reforma():
     st.write(f"Calidades Otros: {calidades_otros}")
     st.write(f"Tipo de Venta: {tipo_venta}")
 
-# Función para mostrar los cálculos del Resumen Activo
 def display_resumen_activo():
     st.header("Resumen Activo")
     
-    # Inputs para Aire Acondicionado
     aire_split = st.number_input("Aire acondicionado (split)", min_value=0)
     aire_conductos = st.number_input("Aire acondicionado (conductos)", min_value=0)
     total_aire = aire_split * 1800 + aire_conductos * 3500
 
-    # Inputs para ACS + Calefacción
     tipo_calefaccion = st.text_input("Tipo de calefacción")
     calefaccion_num = st.number_input("Número de sistemas de calefacción", min_value=0)
     acs = st.number_input("ACS", min_value=0)
     total_acs_calefaccion = calefaccion_num * 1800 + acs * 3000
 
-    # Inputs para Terraza
     accion = st.number_input("Acción (Terraza)", min_value=0)
     total_terraza = accion * 60
 
-    # Inputs para Carpintería Exterior
     ventana_s = st.number_input("Ventana S", min_value=0)
     ventana_m = st.number_input("Ventana M", min_value=0)
     ventana_l = st.number_input("Ventana L", min_value=0)
     ventana_xl = st.number_input("Ventana XL", min_value=0)
     ventana_paso = st.number_input("Ventana de Paso", min_value=0)
-    total_carpitnaria = (ventana_s * 1000 + ventana_m * 1500 + ventana_l * 2000 +
-                         ventana_xl * 2500 + ventana_paso * 3000)
+    cerramientos = st.number_input("Cerramientos", min_value=0)
+    total_carpitnaria = (ventana_s * 600 + ventana_m * 750 + ventana_l * 1000 +
+                         ventana_xl * 1800 + ventana_paso * 2500 + cerramientos * 3000)
 
-    # Inputs para Armarios
     armario_s = st.number_input("Armario S", min_value=0)
     armario_m = st.number_input("Armario M", min_value=0)
     armario_l = st.number_input("Armario L", min_value=0)
-    empotrados = st.number_input("Armarios Empotrados", min_value=0)
-    total_armarios = (armario_s * 1000 + armario_m * 1500 + armario_l * 2000 +
-                      empotrados * 2500)
+    empotrados = st.number_input("Empotrados", min_value=0)
+    total_armarios = (armario_s * 1300 + armario_m * 1600 + armario_l * 1900 + empotrados * 2100)
 
-    # Inputs para Baños
-    baños_s = st.number_input("Baños S", min_value=0)
-    baños_m = st.number_input("Baños M", min_value=0)
-    baños_l = st.number_input("Baños L", min_value=0)
-    total_baños = baños_s * 6000 + baños_m * 8000 + baños_l * 10000
+    baño_s = st.number_input("Baño S", min_value=0)
+    baño_m = st.number_input("Baño M", min_value=0)
+    baño_l = st.number_input("Baño L", min_value=0)
+    total_baños = baño_s * 3000 + baño_m * 3500 + baño_l * 3800
 
-    # Inputs para Habitaciones
-    hab_menor_10 = st.number_input("Habitaciones <10m2", min_value=0)
-    hab_mayor_10 = st.number_input("Habitaciones >10m2", min_value=0)
-    hab_salon = st.number_input("Salón", min_value=0)
-    cocina_salon = st.number_input("Cocina / Salón", min_value=0)
-    total_habitaciones = (hab_menor_10 * 4000 + hab_mayor_10 * 6000 +
-                          hab_salon * 8000 + cocina_salon * 12000)
+    habitacion_s = st.number_input("Habitacion S", min_value=0)
+    habitacion_m = st.number_input("Habitacion M", min_value=0)
+    habitacion_l = st.number_input("Habitacion L", min_value=0)
+    total_habitaciones = habitacion_s * 2800 + habitacion_m * 3100 + habitacion_l * 4900
 
-    # Inputs para Demolición / Limpieza
-    demolicion = st.number_input("Demolición", min_value=0)
+    facil = st.number_input("Facil", min_value=0)
+    compleja = st.number_input("Compleja", min_value=0)
     limpieza = st.number_input("Limpieza", min_value=0)
-    total_demolicion_limpieza = demolicion * 2000 + limpieza * 1000
+    total_demolicion_limpieza = facil * 20 + compleja * 28 + limpieza * 6
 
-    # Mostrar totales
-    st.subheader("Resumen Activo Totals")
-    st.write(f"Total Aire Acondicionado: €{total_aire}")
-    st.write(f"Total ACS + Calefacción: €{total_acs_calefaccion}")
-    st.write(f"Total Terraza: €{total_terraza}")
-    st.write(f"Total Carpitnaria Exterior: €{total_carpitnaria}")
-    st.write(f"Total Armarios: €{total_armarios}")
-    st.write(f"Total Baños: €{total_baños}")
-    st.write(f"Total Habitaciones: €{total_habitaciones}")
-    st.write(f"Total Demolición / Limpieza: €{total_demolicion_limpieza}")
+    cocina_s = st.number_input("Cocina S", min_value=0)
+    cocina_m = st.number_input("Cocina M", min_value=0)
+    cocina_l = st.number_input("Cocina L", min_value=0)
+    total_cocina = cocina_s * 5000 + cocina_m * 7000 + cocina_l * 12000
 
-# Función para mostrar el P&L de la Operación
+    tabiqueria = st.number_input("Tabiqueria", min_value=0)
+    falsos_techos = st.number_input("Falsos techos", min_value=0)
+    cambio_suelos = st.number_input("Cambio de suelos", min_value=0)
+    lijado_suelos = st.number_input("Lijado y adecuación suelos", min_value=0)
+    pintura_alisado = st.number_input("Pintura + Alisado", min_value=0)
+    pintura_solo = st.number_input("Pintura solo", min_value=0)
+    puerta_paso = st.number_input("Puerta Paso", min_value=0)
+    puerta_acceso = st.number_input("Puerta Acceso", min_value=0)
+    iluminacion = st.number_input("Iluminción y electricidad", min_value=0)
+    contenedores = st.number_input("Contenedores", min_value=0)
+    total_albanileria = (tabiqueria * 30 + falsos_techos * 28 + cambio_suelos * 38 +
+                         lijado_suelos * 24 + pintura_alisado * 33 + pintura_solo * 23 +
+                         puerta_paso * 1100 + puerta_acceso * 1500 + iluminacion * 40 + 
+                         contenedores * 1000)
+
+    total_gasto = (total_aire + total_acs_calefaccion + total_terraza + total_carpitnaria +
+                  total_armarios + total_baños + total_habitaciones + total_demolicion_limpieza +
+                  total_cocina + total_albanileria)
+
+    iva = total_gasto * 0.21
+    total_con_iva = total_gasto + iva
+
+    sqm_construido = st.number_input("sqm Construido medido", min_value=1)
+    costo_por_sqm = total_con_iva / sqm_construido
+
+    st.write(f"Total Gasto (sin IVA): {total_gasto} €")
+    st.write(f"IVA (21%): {iva} €")
+    st.write(f"Total Gasto (con IVA): {total_con_iva} €")
+    st.write(f"Costo por sqm Construido Medido: {costo_por_sqm} €/sqm")
+
 def display_pl_operacion():
     st.header("P&L de la Operación")
-
-    # Diccionario de municipios y sus precios medios por metro cuadrado
+    
+    # Diccionario de precios por metro cuadrado por municipio
     precios_medios_municipios = {
         "Madrid Capital": 5353,
         "Fuenlabrada": 2110,
@@ -230,53 +190,61 @@ def display_pl_operacion():
         "Coslada": 2598
     }
 
-    # Selección de municipio
-    municipio = st.selectbox("Municipio", list(precios_medios_municipios.keys()))
+    # Diccionario de precios por metro cuadrado por barrio en Madrid Capital
+    precio_m2_barrio = {
+        "Arganzuela": 4957,
+        "Barajas": 3727,
+        "Carabanchel": 2730,
+        "Centro": 6223,
+        "Chamartín": 6389,
+        "Chamberí": 6848,
+        "Ciudad Lineal": 4020,
+        "Fuencarral": 3475,
+        "Hortaleza": 4667,
+        "Latina": 3037,
+        "Moncloa": 4957,
+        "Moratalaz": 3527,
+        "Puente de Vallecas": 2038,
+        "Retiro": 6286,
+        "Salamanca": 7690,
+        "San Blas": 2963,
+        "Tetúan": 4970,
+        "Usera": 3036,
+        "Vicálvaro": 2786,
+        "Villa de Vallecas": 2747,
+        "Villaverde": 2333
+    }
 
-    # Selección de barrio si el municipio es Madrid Capital
-    barrio = None
+    # Selección del municipio
+    municipio = st.selectbox("Municipio", list(precios_medios_municipios.keys()))
+    
     if municipio == "Madrid Capital":
-        barrios_madrid = {
-            "Salamanca": 7000,
-            "Chamberí": 6500,
-            "Centro": 6000,
-            "Retiro": 6400,
-            # Agrega más barrios según sea necesario
-        }
-        barrio = st.selectbox("Barrio en Madrid", list(barrios_madrid.keys()))
-        precio_m2 = barrios_madrid[barrio]
+        barrio = st.selectbox("Barrio", list(precio_m2_barrio.keys()))
+        precio_m2 = precio_m2_barrio[barrio]
     else:
         precio_m2 = precios_medios_municipios[municipio]
 
-    # Inputs para cálculos de P&L
-    coste_total = st.number_input("Coste Total", min_value=0.0)
-    sqm_venta = st.number_input("m2 para Venta", min_value=0.0)
-    gastos_impuestos = st.number_input("Gastos e Impuestos", min_value=0.0)
-    otros_gastos = st.number_input("Otros Gastos", min_value=0.0)
-    honorarios_agencia = st.number_input("Honorarios de Agencia", min_value=0.0)
+    sqm_construido = st.number_input("sqm Construido medido", min_value=0)
+    factor_incremento = st.number_input("Factor de Incremento (%)", min_value=0, max_value=100, value=0)
+    
+    # Cálculo del precio de venta estimado
+    precio_venta_estimado = sqm_construido * precio_m2 * (1 + factor_incremento / 100)
 
-    # Cálculo de Ingresos y Gastos Totales
-    total_ingresos = precio_m2 * sqm_venta
-    total_gastos = coste_total + gastos_impuestos + otros_gastos + honorarios_agencia
+    # Inputs adicionales
+    margen_anualizado = st.number_input("Margen Anualizado (%)", min_value=0.0, max_value=100.0, value=10.0)
+    dob_objetivo = st.number_input("DoB Objetivo", min_value=0.0, max_value=100.0, value=20.0)
+    margen_esperado = st.number_input("Margen Esperado (%)", min_value=0.0, max_value=100.0, value=20.0)
+    
+    # Cálculo del máximo de inversión permitida
+    max_inversion_permitida = precio_venta_estimado * (1 - margen_esperado / 100)
 
-    # Resultado de la operación
-    resultado_operacion = total_ingresos - total_gastos
+    # Display de resultados
+    st.write(f"Precio de Venta Estimado: {precio_venta_estimado:.2f} €")
+    st.write(f"Margen Anualizado: {margen_anualizado:.2f}%")
+    st.write(f"DoB Objetivo: {dob_objetivo:.2f}%")
+    st.write(f"Margen Esperado: {margen_esperado:.2f}%")
+    st.write(f"Máximo de Inversión Permitida: {max_inversion_permitida:.2f} €")
 
-    # Mostrar detalles del P&L
-    st.subheader("Detalles de P&L")
-    st.write(f"Municipio: {municipio}")
-    if barrio:
-        st.write(f"Barrio: {barrio}")
-    st.write(f"Precio por m2: €{precio_m2}")
-    st.write(f"Coste Total: €{coste_total}")
-    st.write(f"m2 para Venta: {sqm_venta}")
-    st.write(f"Gastos e Impuestos: €{gastos_impuestos}")
-    st.write(f"Otros Gastos: €{otros_gastos}")
-    st.write(f"Honorarios de Agencia: €{honorarios_agencia}")
-    st.write(f"Total Ingresos: €{total_ingresos}")
-    st.write(f"Total Gastos: €{total_gastos}")
-    st.write(f"Resultado de la Operación: €{resultado_operacion}")
-
-# Ejecutar la aplicación de Streamlit
+# Run the app
 if __name__ == "__main__":
     main()
